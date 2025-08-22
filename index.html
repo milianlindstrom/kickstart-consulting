@@ -13,7 +13,7 @@
   <link rel="icon" href="/favicon.ico" />
 
   <style>
-    /* färger */
+    /* ==== Professional theme ==== */
     :root {
       --bg: #0b0c10;
       --card:#101216;
@@ -59,10 +59,12 @@
       background: linear-gradient(180deg, #12161f, #0e1218 60%);
       color: var(--text); text-decoration: none;
       box-shadow: 0 1px 0 rgba(255,255,255,.02) inset;
-      transition: transform .06s ease, border-color .12s ease, box-shadow .12s ease;
+      transition: transform .06s ease, border-color .12s ease, box-shadow .12s ease, opacity .12s ease;
+      cursor: pointer;
     }
     .btn:hover { transform: translateY(-1px); border-color:#263041; }
     .btn:focus-visible { outline: 2px solid rgba(74,222,128,.35); outline-offset: 2px; }
+    .btn[disabled] { opacity: .6; cursor: not-allowed; }
 
     .hero { padding: 48px 16px 16px; text-align:center; }
     .title {
@@ -94,6 +96,19 @@
     @media (min-width: 720px) {
       footer .foot-grid { grid-template-columns: 1fr auto; align-items:center; }
     }
+
+    /* Small helper styles for form status */
+    .status {
+      font-size: 14px;
+      color: var(--muted);
+      margin: 4px 0 0;
+      min-height: 20px;
+    }
+    .status.ok { color: #86efac; }      /* light green */
+    .status.err { color: #fca5a5; }     /* light red */
+    .sr-only {
+      position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0;
+    }
   </style>
 </head>
 <body>
@@ -101,8 +116,11 @@
     <div class="wrap">
       <nav>
         <div class="brand">
-          <!-- Replace SVG with your logo image -->
-          <!-- Example: <img src="logo.png" alt="Kickstart Consulting Logo" height="28"> -->
+          <!-- ✅ Attach your logo image here -->
+          <!-- Example:
+               <img src="logo.png" alt="Kickstart Consulting Logo" height="28">
+               Make sure logo.png is uploaded in the repo root (same folder as index.html).
+          -->
           <a href="#" aria-label="Home">Kickstart Consulting</a>
         </div>
         <div class="links">
@@ -155,22 +173,38 @@
     </section>
 
     <section id="contact" class="wrap" style="padding: 8px 16px 64px;">
-      <form id="contact-form" class="card" style="display:grid; gap:12px;">
+      <!-- Progressive enhancement:
+           - With JS: we use fetch to submit to Formspree and show status
+           - Without JS: this still posts directly to Formspree -->
+      <form id="contact-form" class="card" style="display:grid; gap:12px;"
+            action="https://formspree.io/f/YOUR_FORM_ID" method="POST" novalidate>
         <h2 style="margin:0 0 6px">Contact us</h2>
+
+        <!-- Subject for emails you receive -->
+        <input type="hidden" name="_subject" value="Kickstart Consulting – Contact" />
+        <!-- Honeypot (spam trap) -->
+        <input type="text" name="_gotcha" class="sr-only" tabindex="-1" autocomplete="off" aria-hidden="true">
+
         <label>
           <span>Name</span>
-          <input required name="name" placeholder="Sven Svensson" style="width:100%; padding:10px 12px; border-radius:6px; border:1px solid #262a3c; background:#0b0d14; color:var(--text)" />
+          <input required name="name" placeholder="Sven Svensson" autocomplete="name"
+                 style="width:100%; padding:10px 12px; border-radius:6px; border:1px solid #262a3c; background:#0b0d14; color:var(--text)" />
         </label>
+
         <label>
           <span>Email</span>
-          <input required type="email" name="email" placeholder="you@example.com" style="width:100%; padding:10px 12px; border-radius:6px; border:1px solid #262a3c; background:#0b0d14; color:var(--text)" />
+          <input required type="email" name="email" placeholder="you@example.com" autocomplete="email"
+                 style="width:100%; padding:10px 12px; border-radius:6px; border:1px solid #262a3c; background:#0b0d14; color:var(--text)" />
         </label>
+
         <label>
           <span>Message</span>
-          <textarea required name="message" rows="5" placeholder="How can we help?" style="width:100%; padding:10px 12px; border-radius:6px; border:1px solid #262a3c; background:#0b0d14; color:var(--text)"></textarea>
+          <textarea required name="message" rows="5" placeholder="How can we help?"
+                    style="width:100%; padding:10px 12px; border-radius:6px; border:1px solid #262a3c; background:#0b0d14; color:var(--text)"></textarea>
         </label>
-        <button class="btn" type="submit">Send</button>
-        <p id="form-status" style="font-size:14px; color:var(--muted)" role="status" aria-live="polite">Not sent yet</p>
+
+        <button class="btn" type="submit" id="submit-btn">Send</button>
+        <p id="form-status" class="status" role="status" aria-live="polite">Not sent yet</p>
       </form>
     </section>
   </main>
@@ -188,17 +222,62 @@
     // Current year in footer
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // Simple contact form handler (demo only)
+    // Formspree handler (progressive enhancement)
     const form = document.getElementById('contact-form');
-    const status = document.getElementById('form-status');
+    const statusEl = document.getElementById('form-status');
+    const submitBtn = document.getElementById('submit-btn');
+
+    const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mvgqeqek'; // <-- replace YOUR_FORM_ID
+
+    function isValidEmail(email) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      status.textContent = 'Sending…';
+
+      // Basic front-end validation
+      const name = form.name.value.trim();
+      const email = form.email.value.trim();
+      const message = form.message.value.trim();
+
+      if (!name) { statusEl.textContent = 'Please enter your name.'; statusEl.className = 'status err'; return; }
+      if (!isValidEmail(email)) { statusEl.textContent = 'Please enter a valid email.'; statusEl.className = 'status err'; return; }
+      if (message.length < 5) { statusEl.textContent = 'Message is too short.'; statusEl.className = 'status err'; return; }
+
+      // Submit with fetch to Formspree
+      statusEl.textContent = 'Sending…';
+      statusEl.className = 'status';
+      submitBtn.setAttribute('disabled', 'disabled');
+
       try {
-        await new Promise(r => setTimeout(r, 800)); // demo delay
-        status.textContent = 'Sent! (demo)';
+        const resp = await fetch(FORMSPREE_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Accept': 'application/json' },
+          body: new FormData(form)
+        });
+
+        if (resp.ok) {
+          statusEl.textContent = 'Thanks! Your message was sent.';
+          statusEl.className = 'status ok';
+          form.reset();
+        } else {
+          // Try to read error message for better UX
+          let msg = 'Hmm, something went wrong. Please try again.';
+          try {
+            const data = await resp.json();
+            if (data && data.errors && data.errors.length) {
+              msg = data.errors.map(e => e.message).join(', ');
+            }
+          } catch (_) {}
+          statusEl.textContent = msg;
+          statusEl.className = 'status err';
+        }
       } catch (err) {
-        status.textContent = 'Failed to send.';
+        statusEl.textContent = 'Network error. Please try again.';
+        statusEl.className = 'status err';
+      } finally {
+        submitBtn.removeAttribute('disabled');
       }
     });
   </script>
