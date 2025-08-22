@@ -4,42 +4,90 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Kickstart Consulting</title>
-  <meta name="description" content="A clean, fast starter website." />
-  <meta property="og:title" content="Your Site Title" />
-  <meta property="og:description" content="A clean, fast starter website." />
+  <meta name="description" content="Kickstart Consulting AB – Management & IT" />
+  <meta property="og:title" content="Kickstart Consulting AB" />
+  <meta property="og:description" content="Management & IT Consulting Services" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://your-domain.tld" />
   <meta property="og:image" content="/og-image.png" />
   <link rel="icon" href="/favicon.ico" />
+
   <style>
-    :root { --bg: #0b0c10; --card:#111217; --text:#e5e7eb; --muted:#a1a1aa; --brand:#7c3aed; --brand-2:#22d3ee; }
+    /* färger */
+    :root {
+      --bg: #0b0c10;
+      --card:#101216;
+      --text:#e5e7eb;
+      --muted:#a1a1aa;
+      --border:#1f2430;
+      --brand:#16a34a;   /* main green */
+      --brand-2:#4ade80; /* secondary green */
+    }
     * { box-sizing: border-box; }
     html, body { height: 100%; }
-    body { margin: 0; font: 16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji"; color: var(--text); background: radial-gradient(1200px 800px at 80% -20%, rgba(124,58,237,.15), transparent 60%), radial-gradient(1000px 700px at -20% 0%, rgba(34,211,238,.12), transparent 55%), var(--bg); }
+    body {
+      margin: 0;
+      font: 16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      color: var(--text);
+      background:
+        radial-gradient(900px 600px at 80% -20%, rgba(22,163,74,.10), transparent 55%),
+        radial-gradient(900px 600px at -20% 0%, rgba(74,222,128,.08), transparent 50%),
+        var(--bg);
+    }
 
-    header { position: sticky; top: 0; backdrop-filter: saturate(180%) blur(10px); background: rgba(10,10,12,.5); border-bottom: 1px solid #1f2230; z-index: 50; }
+    header {
+      position: sticky; top: 0;
+      backdrop-filter: saturate(140%) blur(6px);
+      background: rgba(10,10,12,.55);
+      border-bottom: 1px solid var(--border);
+      z-index: 50;
+    }
     .wrap { max-width: 1100px; margin: 0 auto; padding: 16px; }
+
     nav { display:flex; align-items:center; justify-content:space-between; gap:12px; }
     nav .brand { display:flex; align-items:center; gap:10px; font-weight:700; letter-spacing:.2px; }
-    .chip { font-size:12px; padding:4px 8px; border:1px solid #2a2e3f; border-radius:999px; color:var(--muted); }
     nav a { color: var(--text); text-decoration: none; opacity: .9; }
     nav a:hover { opacity: 1; }
+
     .links { display:flex; gap:14px; align-items:center; }
-    .btn { display:inline-flex; align-items:center; gap:8px; padding:10px 14px; border-radius:14px; border:1px solid #2a2e3f; background: linear-gradient(180deg, #151826, #0f1119 70%); color: var(--text); text-decoration: none; box-shadow: 0 1px 0 #26293b inset, 0 20px 40px rgba(124,58,237,.10); }
-    .btn:hover { transform: translateY(-1px); }
 
-    .hero { padding: 64px 16px 24px; text-align:center; }
-    .title { font-size: clamp(32px, 6vw, 56px); line-height:1.1; letter-spacing:-.02em; margin: 0 0 10px; }
-    .subtitle { font-size: clamp(16px, 2.5vw, 20px); color: var(--muted); margin: 0 auto; max-width: 60ch; }
+    .btn {
+      display:inline-flex; align-items:center; gap:8px;
+      padding:10px 14px;
+      border-radius:8px;
+      border:1px solid var(--border);
+      background: linear-gradient(180deg, #12161f, #0e1218 60%);
+      color: var(--text); text-decoration: none;
+      box-shadow: 0 1px 0 rgba(255,255,255,.02) inset;
+      transition: transform .06s ease, border-color .12s ease, box-shadow .12s ease;
+    }
+    .btn:hover { transform: translateY(-1px); border-color:#263041; }
+    .btn:focus-visible { outline: 2px solid rgba(74,222,128,.35); outline-offset: 2px; }
 
-    .grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); gap:16px; padding: 28px 16px; }
-    .card { background: linear-gradient(180deg, #121422, #0c0e15 70%); border:1px solid #22263a; border-radius: 18px; padding: 18px; box-shadow: 0 1px 0 #24283c inset, 0 10px 30px rgba(0,0,0,.25); }
-    .card h3 { margin: 6px 0 8px; font-size: 18px; }
+    .hero { padding: 48px 16px 16px; text-align:center; }
+    .title {
+      font-size: clamp(30px, 6vw, 48px);
+      line-height:1.15; letter-spacing:-.01em; margin: 0 0 6px;
+    }
+    .subtitle { font-size: clamp(15px, 2.5vw, 18px); color: var(--muted); margin: 0 auto; max-width: 60ch; }
+
+    .grid {
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px,1fr));
+      gap:16px; padding: 28px 16px;
+    }
+
+    .card {
+      background: #0f131a;
+      border:1px solid var(--border);
+      border-radius:10px;
+      padding: 18px;
+      box-shadow: 0 4px 12px rgba(0,0,0,.18);
+    }
+    .card h3 { margin: 4px 0 6px; font-size: 18px; font-weight: 650; }
     .card p { margin: 0; color: var(--muted); }
 
-    .cta { text-align:center; padding: 20px 16px 64px; }
-
-    footer { border-top: 1px solid #1f2230; color: var(--muted); }
+    footer { border-top: 1px solid var(--border); color: var(--muted); padding:16px 0; }
     footer .foot-grid { display:grid; grid-template-columns: 1fr; gap: 12px; }
     footer small { color: var(--muted); }
 
@@ -53,17 +101,9 @@
     <div class="wrap">
       <nav>
         <div class="brand">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <defs>
-              <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0" stop-color="#7c3aed"/>
-                <stop offset="1" stop-color="#22d3ee"/>
-              </linearGradient>
-            </defs>
-            <path d="M12 3l7.5 4.33v9.34L12 21l-7.5-4.33V7.33L12 3z" fill="url(#g)"/>
-          </svg>
+          <!-- Replace SVG with your logo image -->
+          <!-- Example: <img src="logo.png" alt="Kickstart Consulting Logo" height="28"> -->
           <a href="#" aria-label="Home">Kickstart Consulting</a>
-          <span class="chip">v1.0</span>
         </div>
         <div class="links">
           <a href="#features">Features</a>
@@ -78,8 +118,8 @@
     <section class="hero">
       <h1 class="title">Kickstart Consulting AB</h1>
       <p class="subtitle">Management & IT</p>
-      <p style="margin-top:18px">
-        <a class="btn" href="#features">Contact me →</a>
+      <p style="margin-top:16px">
+        <a class="btn" href="#contact">Contact us →</a>
       </p>
     </section>
 
@@ -90,25 +130,25 @@
       </article>
       <article class="card">
         <h3>Förändring</h3>
-        <p>Driver förändring i din bla bla bla.</p>
+        <p>Driver förändring i din organisation.</p>
       </article>
       <article class="card">
         <h3>En till titel</h3>
-        <p>Anlita Sebastian Lindström</p>
+        <p>Anlita Sebastian Lindström.</p>
       </article>
       <article class="card">
         <h3>Värd pengarna</h3>
-        <p>Kostar men avkastningen är fantastisk.</p>
+        <p>Kostar, men avkastningen är fantastisk.</p>
       </article>
     </section>
 
     <section id="about" class="wrap" style="padding: 8px 16px 28px;">
       <div class="card" style="padding:22px;">
-        <h2 style="margin:0 0 8px">Aboout Kickstart Consulting</h2>
-        <p style="margin:0 0 10px; color:var(--muted)">Started as bla bla bla bli blo blablabla. </p>
+        <h2 style="margin:0 0 8px">About Kickstart Consulting</h2>
+        <p style="margin:0 0 10px; color:var(--muted)">Started as bla bla bla bli blo blablabla.</p>
         <ul style="margin:0; padding-left:18px; color:var(--muted)">
           <li>Punkt 1 som är viktig</li>
-          <li>Punkt 2 som också är viktig.</li>
+          <li>Punkt 2 som också är viktig</li>
           <li>Punkt 3 som även den är viktig</li>
         </ul>
       </div>
@@ -116,21 +156,21 @@
 
     <section id="contact" class="wrap" style="padding: 8px 16px 64px;">
       <form id="contact-form" class="card" style="display:grid; gap:12px;">
-        <h2 style="margin:0 0 6px">Contact me</h2>
+        <h2 style="margin:0 0 6px">Contact us</h2>
         <label>
           <span>Name</span>
-          <input required name="name" placeholder="Sven Svensson" style="width:100%; padding:10px 12px; border-radius:10px; border:1px solid #262a3c; background:#0b0d14; color:var(--text)" />
+          <input required name="name" placeholder="Sven Svensson" style="width:100%; padding:10px 12px; border-radius:6px; border:1px solid #262a3c; background:#0b0d14; color:var(--text)" />
         </label>
         <label>
           <span>Email</span>
-          <input required type="email" name="email" placeholder="you@example.com" style="width:100%; padding:10px 12px; border-radius:10px; border:1px solid #262a3c; background:#0b0d14; color:var(--text)" />
+          <input required type="email" name="email" placeholder="you@example.com" style="width:100%; padding:10px 12px; border-radius:6px; border:1px solid #262a3c; background:#0b0d14; color:var(--text)" />
         </label>
         <label>
           <span>Message</span>
-          <textarea required name="message" rows="5" placeholder="How can we help?" style="width:100%; padding:10px 12px; border-radius:10px; border:1px solid #262a3c; background:#0b0d14; color:var(--text)"></textarea>
+          <textarea required name="message" rows="5" placeholder="How can we help?" style="width:100%; padding:10px 12px; border-radius:6px; border:1px solid #262a3c; background:#0b0d14; color:var(--text)"></textarea>
         </label>
         <button class="btn" type="submit">Send</button>
-        <p id="form-status" class="chip" role="status" aria-live="polite" style="justify-self:start">Not sent yet</p>
+        <p id="form-status" style="font-size:14px; color:var(--muted)" role="status" aria-live="polite">Not sent yet</p>
       </form>
     </section>
   </main>
@@ -148,15 +188,13 @@
     // Current year in footer
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // Simple contact form handler (no backend). Replace with your endpoint later.
+    // Simple contact form handler (demo only)
     const form = document.getElementById('contact-form');
     const status = document.getElementById('form-status');
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       status.textContent = 'Sending…';
       try {
-        // Example: send to a service like Formspree / your own API
-        // const resp = await fetch('https://your-endpoint', { method:'POST', body: new FormData(form) });
         await new Promise(r => setTimeout(r, 800)); // demo delay
         status.textContent = 'Sent! (demo)';
       } catch (err) {
