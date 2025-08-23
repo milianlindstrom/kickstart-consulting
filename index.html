@@ -104,11 +104,91 @@
       margin: 4px 0 0;
       min-height: 20px;
     }
-    .status.ok { color: #86efac; }      /* light green */
-    .status.err { color: #fca5a5; }     /* light red */
+    .status.ok { color: #86efac; }
+    .status.err { color: #fca5a5; }
     .sr-only {
       position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0;
     }
+
+    /* ===== Career / Portfolio timeline ===== */
+    .timeline { padding: 40px 16px; }
+    .timeline h2 { margin: 0 0 16px; text-align: center; }
+    .timeline-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 22px;
+      align-items: start;
+    }
+    .tl-card {
+      position: relative;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px 16px 16px;
+      text-align: center;
+      transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+      cursor: default;
+    }
+    .tl-card:hover, .tl-card:focus-within {
+      transform: translateY(-2px);
+      border-color: #263041;
+      box-shadow: 0 10px 28px rgba(0,0,0,.28);
+    }
+    .tl-icon {
+      width: 76px; height: 76px; margin: 6px auto 8px;
+      border-radius: 999px;
+      display: grid; place-items: center;
+      border: 2px solid rgba(255,255,255,.25);
+      background: radial-gradient(60% 60% at 50% 38%, rgba(255,255,255,.06), transparent 70%);
+      color: var(--brand-2); /* icon tint */
+    }
+    .tl-icon svg, .tl-icon img, .tl-icon span { width: 34px; height: 34px; }
+    .tl-year { font-weight: 700; margin: 6px 0 2px; }
+    .tl-title { color: var(--muted); font-size: 14px; line-height: 1.4; min-height: 38px; }
+
+    .tl-pop {
+      position: absolute;
+      left: 50%; top: 100%;
+      transform: translate(-50%, 12px);
+      width: min(320px, 92vw);
+      background: #0f131a;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      box-shadow: 0 16px 40px rgba(0,0,0,.42);
+      padding: 12px 14px;
+      text-align: left;
+      opacity: 0; pointer-events: none; visibility: hidden;
+      transition: opacity .16s ease, transform .16s ease, visibility .16s;
+      z-index: 5;
+    }
+    .tl-pop h4 { margin: 0 0 6px; font-size: 15px; font-weight: 650; }
+    .tl-pop p { margin: 0; color: var(--muted); font-size: 14px; }
+    .tl-card:hover .tl-pop,
+    .tl-card:focus-within .tl-pop,
+    .tl-card[data-open="true"] .tl-pop {
+      opacity: 1; pointer-events: auto; visibility: visible;
+      transform: translate(-50%, 8px);
+    }
+    .tl-pop::before {
+      content: ""; position: absolute; top: -6px; left: 50%;
+      transform: translateX(-50%);
+      border-width: 6px; border-style: solid;
+      border-color: transparent transparent var(--border) transparent;
+    }
+    .tl-pop::after {
+      content: ""; position: absolute; top: -5px; left: 50%;
+      transform: translateX(-50%);
+      border-width: 6px; border-style: solid;
+      border-color: transparent transparent #0f131a transparent;
+    }
+    .tl-card:hover .tl-icon, .tl-card:focus-within .tl-icon { border-color: rgba(74,222,128,.45); }
+
+    .tl-more {
+      position: absolute; inset: 10px 10px auto auto;
+      background: transparent; border: 0; color: var(--muted);
+      font-size: 18px; line-height: 1; cursor: pointer;
+    }
+    .tl-more:focus-visible { outline: 2px solid rgba(74,222,128,.35); border-radius: 6px; }
   </style>
 </head>
 <body>
@@ -116,7 +196,7 @@
     <div class="wrap">
       <nav>
         <div class="brand">
-          <!-- ✅ Attach your logo image here -->
+          <!--  Attach logo image here -->
           <!-- Example:
                <img src="logo.png" alt="Kickstart Consulting Logo" height="28">
                Make sure logo.png is uploaded in the repo root (same folder as index.html).
@@ -125,6 +205,7 @@
         </div>
         <div class="links">
           <a href="#features">Features</a>
+          <a href="#career">Career</a>
           <a href="#about">About</a>
           <a href="#contact" class="btn">Contact</a>
         </div>
@@ -160,6 +241,83 @@
       </article>
     </section>
 
+    <!-- ===== Career / Portfolio timeline ===== -->
+    <section id="career" class="timeline wrap">
+      <h2>Career</h2>
+      <div class="timeline-grid">
+        <!-- Item 1 -->
+        <article class="tl-card" tabindex="0">
+          <div class="tl-icon" aria-hidden="true">
+            <!-- Swap with your own small SVG/PNG  !-->
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 3l9 5-9 5-9-5 9-5zm9 8v5l-9 5-9-5v-5l9 5 9-5z" fill="currentColor"/></svg>
+          </div>
+          <div class="tl-year">1999</div>
+          <div class="tl-title">Bla bla bla bla</div>
+          <div class="tl-pop" role="dialog" aria-label="1999 details">
+            <h4>Wow wow wow</h4>
+            <p>blablabla blablabla bla.</p>
+          </div>
+          <button class="tl-more" aria-label="More details">⋯</button>
+        </article>
+
+        <!-- Item 2 -->
+        <article class="tl-card" tabindex="0">
+          <div class="tl-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M7 4h10a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3zm5 3a4 4 0 1 1 0 8 4 4 0 0 1 0-8z" fill="currentColor"/></svg>
+          </div>
+          <div class="tl-year">2003</div>
+          <div class="tl-title">Sony Music Entertainment Sweden AB</div>
+          <div class="tl-pop" role="dialog" aria-label="2003 details">
+            <h4>Business business</h4>
+            <p>Hhandled business and business.</p>
+          </div>
+          <button class="tl-more" aria-label="More details">⋯</button>
+        </article>
+
+        <!-- Item 3 -->
+        <article class="tl-card" tabindex="0">
+          <div class="tl-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M10 3h4v4h-4zM4 10h16v4H4zM3 18h18v3H3z" fill="currentColor"/></svg>
+          </div>
+          <div class="tl-year">2005</div>
+          <div class="tl-title">Bla bla bla</div>
+          <div class="tl-pop" role="dialog" aria-label="2005 details">
+            <h4>Cooolt coolt</h4>
+            <p>Commercial and teblablalblalba.</p>
+          </div>
+          <button class="tl-more" aria-label="More details">⋯</button>
+        </article>
+
+        <!-- Item 4 -->
+        <article class="tl-card" tabindex="0">
+          <div class="tl-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 2l4 4-4 4-4-4 4-4zm0 8l10 10H2L12 10z" fill="currentColor"/></svg>
+          </div>
+          <div class="tl-year">2007</div>
+          <div class="tl-title">Karriär, - karriär</div>
+          <div class="tl-pop" role="dialog" aria-label="2007 details">
+            <h4>Position position.</h4>
+            <p>I did this, that and that while also doing this.</p>
+          </div>
+          <button class="tl-more" aria-label="More details">⋯</button>
+        </article>
+
+        <!-- Item 5 -->
+        <article class="tl-card" tabindex="0">
+          <div class="tl-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M4 10l8-6 8 6v10H4V10zm8 3l8-6" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+          </div>
+          <div class="tl-year">2018</div>
+          <div class="tl-title">Founder — Wildside Law AB</div>
+          <div class="tl-pop" role="dialog" aria-label="2018 details">
+            <h4>Founder & Owner — Kickstart Consulting AB</h4>
+            <p>bla bla bla bla blablah.</p>
+          </div>
+          <button class="tl-more" aria-label="More details">⋯</button>
+        </article>
+      </div>
+    </section>
+
     <section id="about" class="wrap" style="padding: 8px 16px 28px;">
       <div class="card" style="padding:22px;">
         <h2 style="margin:0 0 8px">About Kickstart Consulting</h2>
@@ -177,7 +335,7 @@
            - With JS: we use fetch to submit to Formspree and show status
            - Without JS: this still posts directly to Formspree -->
       <form id="contact-form" class="card" style="display:grid; gap:12px;"
-            action="https://formspree.io/f/YOUR_FORM_ID" method="POST" novalidate>
+            action="https://formspree.io/f/mvgqeqek" method="POST" novalidate>
         <h2 style="margin:0 0 6px">Contact us</h2>
 
         <!-- Subject for emails you receive -->
@@ -226,8 +384,7 @@
     const form = document.getElementById('contact-form');
     const statusEl = document.getElementById('form-status');
     const submitBtn = document.getElementById('submit-btn');
-
-    const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mvgqeqek'; // <-- replace YOUR_FORM_ID
+    const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mvgqeqek'; // endpoint
 
     function isValidEmail(email) {
       return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -235,8 +392,6 @@
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
-
-      // Basic front-end validation
       const name = form.name.value.trim();
       const email = form.email.value.trim();
       const message = form.message.value.trim();
@@ -245,7 +400,6 @@
       if (!isValidEmail(email)) { statusEl.textContent = 'Please enter a valid email.'; statusEl.className = 'status err'; return; }
       if (message.length < 5) { statusEl.textContent = 'Message is too short.'; statusEl.className = 'status err'; return; }
 
-      // Submit with fetch to Formspree
       statusEl.textContent = 'Sending…';
       statusEl.className = 'status';
       submitBtn.setAttribute('disabled', 'disabled');
@@ -256,28 +410,33 @@
           headers: { 'Accept': 'application/json' },
           body: new FormData(form)
         });
-
-        if (resp.ok) {
-          statusEl.textContent = 'Thanks! Your message was sent.';
-          statusEl.className = 'status ok';
-          form.reset();
-        } else {
-          // Try to read error message for better UX
+        if (resp.ok) { statusEl.textContent = 'Thanks! Your message was sent.'; statusEl.className = 'status ok'; form.reset(); }
+        else {
           let msg = 'Hmm, something went wrong. Please try again.';
-          try {
-            const data = await resp.json();
-            if (data && data.errors && data.errors.length) {
-              msg = data.errors.map(e => e.message).join(', ');
-            }
-          } catch (_) {}
-          statusEl.textContent = msg;
-          statusEl.className = 'status err';
+          try { const data = await resp.json(); if (data?.errors?.length) msg = data.errors.map(e => e.message).join(', '); } catch {}
+          statusEl.textContent = msg; statusEl.className = 'status err';
         }
-      } catch (err) {
-        statusEl.textContent = 'Network error. Please try again.';
-        statusEl.className = 'status err';
+      } catch {
+        statusEl.textContent = 'Network error. Please try again.'; statusEl.className = 'status err';
       } finally {
         submitBtn.removeAttribute('disabled');
+      }
+    });
+
+    // Timeline: enable tap-to-toggle on mobile (since :hover doesn’t exist)
+    document.querySelectorAll('.tl-card .tl-more').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const card = e.currentTarget.closest('.tl-card');
+        const open = card.getAttribute('data-open') === 'true';
+        document.querySelectorAll('.tl-card[data-open="true"]').forEach(c => c.setAttribute('data-open','false'));
+        card.setAttribute('data-open', open ? 'false' : 'true');
+        e.stopPropagation();
+      });
+    });
+    // Click outside to close on mobile
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.tl-card')) {
+        document.querySelectorAll('.tl-card[data-open="true"]').forEach(c => c.setAttribute('data-open','false'));
       }
     });
   </script>
